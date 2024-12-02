@@ -134,6 +134,24 @@
         "Statue d'Akhenaton",
         "Les Trésors de la Vallée des Rois"
       ]
+    },
+    {
+      "id": "dade",
+      "name": "amine tarhouni",
+      "country": "Tunisie",
+      "photo": "</museums>png",
+      "date": "2024-12-11",
+      "theme": "Sciences",
+      "surface": 100,
+      "nbObjects": 3,
+      "works": [
+        {
+          "name": "louvre"
+        },
+        {
+          "name": "im"
+        }
+      ]
     }
   ]
 }

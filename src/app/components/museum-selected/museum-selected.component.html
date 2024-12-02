@@ -1,2 +1,18 @@
-<h3> Musée en ... ayant pour thème ... </h3>
+<div>
+  <h3>Musée en {{ country }} ayant pour thème {{theme}}</h3>
 
+  <button class="btn btn-secondary" (click)="onBack()">Retour à la liste des musées</button>
+
+  <div *ngIf="museums$ | async as museums">
+    @if(museums.length === 0){
+    <div>Aucun musée trouvé pour ce thème et pays.</div>
+    <ul>
+        @for(museum of museums ; track $index){
+      <li>
+        <strong>{{ museum.name }}</strong>
+      </li>
+    }
+    </ul>
+}
+  </div>
+</div>

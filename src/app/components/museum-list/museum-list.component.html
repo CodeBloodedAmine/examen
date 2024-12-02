@@ -1,2 +1,24 @@
-<h3>Liste des musées</h3>
 
+<div>
+    <h2>Tous les Musées</h2>
+  
+    <ul>
+        @for( museum of museums ; track $index){
+      <li>
+        <img [src]="museum.photo" [alt]="museum.name" (click)="onMuseumClick(museum)"> <strong>{{museum.name}}</strong> - {{museum.country}} -  <span 
+        class="badge"
+        [ngClass]="{
+          'bg-warning': museum.theme.toLowerCase() === 'archeologie',
+          'bg-primary': museum.theme.toLowerCase() === 'science',
+          'bg-info': museum.theme.toLowerCase() === 'art',
+          'bg-secondary': museum.theme.toLowerCase() !== 'archeologie' && 
+                          museum.theme.toLowerCase() !== 'science' && 
+                          museum.theme.toLowerCase() !== 'art'
+        }">
+        {{ museum.theme }}
+      </span>
+       - Fondé le : {{museum.date}} - superficie : {{museum.surface}} m² - nombre d'oeuvres : {{museum.nbObjects}} 
+      <br><strong>oeuvres les plus connues</strong> : {{museum.objects}}
+      </li>
+    }
+    </ul>

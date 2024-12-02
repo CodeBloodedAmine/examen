@@ -1,42 +1,80 @@
 <h3>Ajout d'un musée</h3>
-<form>        
-    <div>
-        <label> Nom du musée </label>
-        <input type="text" class="form-control" >
-    </div>
-    <div>
-        <label> Pays du musée </label>
-        <input type="text" class="form-control" >
-    </div>
-    <div>
-        <label> Photo du musée </label>
-        <input type="text" class="form-control" >
-    </div>
-    <div>
-        <label> Date de fondation du  musée </label>
-        <input type="date" class="form-control" >
-    </div>
-    <div>
-        <label> Thème du musée : </label>
-   
-    </div>
-    <div>
-        <label> Superficie du musée </label>
-        <input type="number" min="0" class="form-control">
-    </div>
 
-    <div>
-        <label> Nombre d'oeuvres du musée </label>
-        <input type="number" min="0" class="form-control" >
+<form [formGroup]="addMuseumForm" (ngSubmit)="onSubmit()">        
+  
+  <div>
+    <label for="name">Nom du musée</label>
+    <input type="text" class="form-control" formControlName="name" [ngClass]="{'is-invalid': addMuseumForm.get('name')?.invalid && addMuseumForm.get('name')}">
+    <div *ngIf="addMuseumForm.get('name')?.invalid && addMuseumForm.get('name')" class="invalid-feedback">
+      Le nom du musée est obligatoire.
     </div>
-    <div>
-        <label> Principales oeuvres du musée </label>
-        <div>
+  </div>
 
+  <div>
+    <label for="country">Pays du musée</label>
+    <input type="text" class="form-control" formControlName="country" [ngClass]="{'is-invalid': addMuseumForm.get('country')?.invalid && addMuseumForm.get('country')}">
+    <div *ngIf="addMuseumForm.get('country')?.invalid && addMuseumForm.get('country')" class="invalid-feedback">
+      Le format du pays n'est pas valide (ex: Saoudie-Arabe).
+    </div>
+  </div>
+
+  <div>
+    <label for="photo">Photo du musée</label>
+    <input type="text" class="form-control" formControlName="photo" [ngClass]="{'is-invalid': addMuseumForm.get('photo')?.invalid && addMuseumForm.get('photo')}">
+    <div *ngIf="addMuseumForm.get('photo')?.invalid && addMuseumForm.get('photo')" class="invalid-feedback">
+      La photo est obligatoire.
+    </div>
+  </div>
+
+  <div>
+    <label for="date">Date de fondation du musée</label>
+    <input type="date" class="form-control" formControlName="date" [ngClass]="{'is-invalid': addMuseumForm.get('date')?.invalid && addMuseumForm.get('date')}">
+    <div *ngIf="addMuseumForm.get('date')?.invalid && addMuseumForm.get('date')" class="invalid-feedback">
+      La date de fondation est obligatoire.
+    </div>
+  </div>
+
+  <div>
+    <label>Thème du musée</label>
+    <div *ngFor="let theme of themes">
+      <input type="radio" formControlName="theme" [value]="theme" [checked]="theme === addMuseumForm.get('theme')?.value">
+      {{ theme }}
+    </div>
+  </div>
+
+  <div>
+    <label for="surface">Superficie du musée</label>
+    <input type="number" min="0" class="form-control" formControlName="surface" [ngClass]="{'is-invalid': addMuseumForm.get('surface')?.invalid && addMuseumForm.get('surface')}">
+    <div *ngIf="addMuseumForm.get('surface')?.invalid && addMuseumForm.get('surface')" class="invalid-feedback">
+      La superficie doit être un nombre positif.
+    </div>
+  </div>
+
+  <div>
+    <label for="nbObjects">Nombre d'oeuvres du musée</label>
+    <input type="number" min="0" class="form-control" formControlName="nbObjects" [ngClass]="{'is-invalid': addMuseumForm.get('nbObjects')?.invalid && addMuseumForm.get('nbObjects')}">
+    <div *ngIf="addMuseumForm.get('nbObjects')?.invalid && addMuseumForm.get('nbObjects')" class="invalid-feedback">
+      Le nombre d'oeuvres doit être un nombre positif.
+    </div>
+  </div>
+
+  <div>
+    <label>Principales oeuvres du musée</label>
+    <div formArrayName="works">
+      <div *ngFor="let work of works.controls; let i = index" [formGroupName]="i">
+        <input type="text" class="form-control" formControlName="name" [ngClass]="{'is-invalid': work.get('name')?.invalid && work.get('name')}">
+        <div *ngIf="work.get('name')?.invalid && work.get('name')" class="invalid-feedback">
+          Le nom de l'oeuvre est obligatoire.
         </div>
-        <button type="button" class="btn btn-sm btn-dark" > Ajouter Oeuvre</button>
+        <button type="button" class="btn btn-danger" (click)="removeWork(i)">Supprimer Oeuvre</button>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary"  > Ajouter Musée</button>
-    <button type="button" class="btn btn-secondary" > Effacer</button>
-</form>
+    <button type="button" class="btn btn-sm btn-dark" (click)="addWork()">Ajouter Oeuvre</button>
+  </div>
 
+  <div>
+    <button type="submit" class="btn btn-primary" [disabled]="addMuseumForm.invalid">Ajouter Musée</button>
+    <button type="button" class="btn btn-secondary" (click)="onReset()">Effacer</button>
+  </div>
+
+</form>
